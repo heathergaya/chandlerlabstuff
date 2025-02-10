@@ -1,0 +1,68 @@
+﻿GitHub SSH keys
+
+
+I’m following the instructions on this page - https://medium.com/clarusway/how-to-use-git-github-without-asking-for-authentication-always-passwordless-usage-of-private-git-8c32489bc2e9
+
+
+Near the bottom there’s a section on generating ssh keys, uploading them to github, and using git without a password on the command line.
+
+
+1. Use this line to create a private / public SSH key pair (I skipped all options… enter, enter, enter)
+   1. ssh-keygen -t rsa
+2. Navigate to ~/.ssh and copy the public key (id_rsa.pub)
+3. Go back to GitHub.com… settings… SSH keys… New SSH Key
+   1. Name the key and paste the entire public key into the field
+4. Authenticate the connection with this line
+   1. ssh -T git@github.com
+5. To use github with shell access, you need to use this syntax to clone the repo
+   1. git clone git@github.com:<url-repo>.git
+6. If you’ve already cloned the repo, set the URL for the origin from its directory like this
+   1. git remote set-url origin git@github.com:<url-repo>.git
+
+
+After doing these things, you can use git to push and pull from the repo!
+git pull
+<make changes in the folder>
+git add -A
+git commit
+<enter a description in the file using the vi editor>
+git push
+
+
+I got an error in the push line and fixed it by adding my ssh key…
+ssh-add ~/.ssh/id_rsa
+git push 
+
+
+It appears that the ssh-add needs to be done the first time each repo is pushed?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Or you can create a config file in your .ssh folder that contains this:
+Host *
+  UseKeychain yes
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_rsa
+
+
+After creating that file (I typed mine in using vi ~/.ssh/config), it seems like it’s going to work without needing to load the identity file every time.
+DONE!!
+
+
+Other helpful links:
+Cheat Sheet for the vi editor
+Creating a DOI for a GitHub repo
+Info on tagging and release versions
