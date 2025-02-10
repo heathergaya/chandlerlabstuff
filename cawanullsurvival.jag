@@ -1,0 +1,12 @@
+model {
+# Priors 
+phi ~ dunif(0, 1)
+
+for(i in 1:nNests) {
+  for(t in (first[i]+1):last[i]) {
+    z[i,t] ~ dbern(z[i,t-1]*phi) # Latent fail/fledge
+    }
+  }
+prSurv25 <- phi^25
+  
+}
